@@ -14,6 +14,11 @@ interface Track {
   downloadUrl: string;
 }
 
+// ИНСТРУКЦИЯ: Чтобы добавить свои песни:
+// 1. Поместите MP3 файлы в папку public/audio/
+// 2. Обновите этот массив с вашими данными
+// 3. Укажите правильные пути к файлам в audioUrl и downloadUrl
+
 const mockTracks: Track[] = [
   {
     id: 1,
@@ -21,8 +26,8 @@ const mockTracks: Track[] = [
     artist: "Чехлисты",
     album: "Первый Альбом",
     duration: "3:45",
-    audioUrl: "",
-    downloadUrl: "",
+    audioUrl: "/audio/anarchia-v-moskve.mp3", // Замените на путь к вашему файлу
+    downloadUrl: "/audio/anarchia-v-moskve.mp3",
   },
   {
     id: 2,
@@ -30,8 +35,8 @@ const mockTracks: Track[] = [
     artist: "Чехлисты",
     album: "Первый Альбом",
     duration: "4:12",
-    audioUrl: "",
-    downloadUrl: "",
+    audioUrl: "/audio/bunt-na-ulitsah.mp3", // Замените на путь к вашему файлу
+    downloadUrl: "/audio/bunt-na-ulitsah.mp3",
   },
   {
     id: 3,
@@ -39,8 +44,8 @@ const mockTracks: Track[] = [
     artist: "Чехлисты",
     album: "Первый Альбом",
     duration: "2:58",
-    audioUrl: "",
-    downloadUrl: "",
+    audioUrl: "/audio/svoboda-ili-smert.mp3", // Замените на путь к вашему файлу
+    downloadUrl: "/audio/svoboda-ili-smert.mp3",
   },
 ];
 
@@ -67,8 +72,17 @@ const MusicPlayer = () => {
   };
 
   const downloadTrack = (track: Track) => {
-    // Placeholder for download functionality
-    console.log(`Downloading: ${track.title}`);
+    if (track.downloadUrl) {
+      // Создаем ссылку для скачивания
+      const link = document.createElement("a");
+      link.href = track.downloadUrl;
+      link.download = `${track.artist} - ${track.title}.mp3`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } else {
+      console.log(`Файл для скачивания не найден: ${track.title}`);
+    }
   };
 
   const formatTime = (time: number) => {
